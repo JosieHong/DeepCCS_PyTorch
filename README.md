@@ -6,7 +6,7 @@ Updates compared with official implementation:
 
 - Fix the SMILES string splitting methods. The numbers larger than 9 can be split correctly. 
 
-- Generate the SMILES encoding dictionary automatically according to the data. 
+- Generate the SMILES encoding dictionary automatically according to the training and test data. 
 
 
 
@@ -33,7 +33,9 @@ pip install tqdm pandas
 Please convert the .h5 dataset into .csv dataset and generate the SMILES encoding dictionary first:
 
 ```bash
-python convet_h5.py --h5_path ./data/DATASETS.h5 --out_dir ./data/
+# DATASETS.h5 is copied from the official implementation of DeepCCS. We chose 'MetCCS_test_neg' 
+# and 'MetCCS_test_pos' as the test datasets, the others are training datasets. 
+python convet_h5.py --h5_path ./DATASETS.h5 --out_dir ./data/
 
 python gen_dict.py --data_dir ./data/ --output encode_smiles.json 
 ```
@@ -41,22 +43,26 @@ python gen_dict.py --data_dir ./data/ --output encode_smiles.json
 Then the model can be trained by: 
 
 ```bash
-python train.py --train_data ./data/ccs_train.csv \
-                --test_data ./data/ccs_test.csv \
+python train.py --train_data ./data/deepccs_train.csv \
+                --test_data ./data/deepccs_test.csv \
                 --checkpoint_path ./check_point/deepccs_ours.pt \
                 --result_path ./result/deepccs_origin.csv 
 
-# python train.py --train_data ./data/ccs_train.csv \
-#                 --test_data ./data/ccs_test.csv \
-#                 --checkpoint_path ./check_point/deepccs_ours.pt \
-#                 --result_path ./result/deepccs_ours.csv 
+# custom dataset
+python train.py --train_data ./data/ccs_train.csv \
+                --test_data ./data/ccs_test.csv \
+                --checkpoint_path ./check_point/deepccs_ours.pt \
+                --result_path ./result/deepccs_ours.csv 
 ```
 
 
 
 ## Results
 
-Update later...
+|                                    | R2                 | Mean absolute error |
+|------------------------------------|--------------------|---------------------|
+| Original datasets from DeepCCS     | 0.9759022106902219 | 3.2407103581215018  |
+| Custom datasets (AllCCS & BushCCS) | 0.8515206514437069 | 9.204849729155162   |
 
 
 

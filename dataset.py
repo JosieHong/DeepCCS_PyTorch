@@ -44,7 +44,7 @@ class SmilesCCSDataset(Dataset):
 				continue
 			add = np.array(self.ENCODE_ADD[add])
 
-			ccs = np.array(row['CCS'])
+			ccs = np.array([row['CCS']])
 			ccs_id = row['ID']
 
 			self.smiles_array.append(smiles)

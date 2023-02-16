@@ -9,6 +9,7 @@ import torch.nn.functional as F
 import numpy as np
 import math
 import pandas as pd
+from sklearn.metrics import r2_score
 
 from dataset import SmilesCCSDataset
 from model import DeepCCS
@@ -107,8 +108,8 @@ if __name__ == "__main__":
 	# num_sym = 38
 	num_add = 5
 
-	lr = 0.001
-	batch_size = 16
+	lr = 0.0001
+	batch_size = 2
 	epoch_num = 100
 	early_stop_step = 20
 	early_stop_patience = 0
@@ -160,7 +161,8 @@ if __name__ == "__main__":
 
 		spec_ids, acc, y_true, y_pred = eval_step(model, val_loader, num_sym, num_add, device)
 		valid_acc = np.mean(acc)
-		print("Validation error: {}".format(valid_acc))
+		valid_r2 = r2_score(y_true, y_pred)
+		print("Validation error: {}, R2: {}".format(valid_acc, valid_r2))
 		
 		if valid_acc < best_valid_acc: 
 			best_valid_acc = valid_acc
@@ -184,6 +186,13 @@ if __name__ == "__main__":
 			break
 
 	if args.result_path != '':
+		print('Loading the best model...')
+		model.load_state_dict(torch.load(args.checkpoint_path, map_location=device)['model_state_dict'])
+		spec_ids, acc, y_true, y_pred = eval_step(model, val_loader, num_sym, num_add, device)
+		valid_acc = np.mean(acc)
+		valid_r2 = r2_score(y_true, y_pred)
+		print("Best validation error: {}, R2: {}".format(valid_acc, valid_r2))
+
 		print('Save the predicted results...')
 		res_df = pd.DataFrame({'ID': spec_ids, 'CCS Exp': y_true.tolist(), 'CCS Pred': y_pred.tolist()})
 		res_df.to_csv(args.result_path, sep='\t')
