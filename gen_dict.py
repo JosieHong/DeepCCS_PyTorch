@@ -20,6 +20,7 @@ def splitting(smiles):
 					|Kr|Rb|Sr|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|Xe|Cs|Ba|La|Hf|Ta|Re|Os|Ir\
 					|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv\
 					|Ts|Og|[A-Za-z]|\d+|\+|\-|\=|\(|\)|\[|\]|\.|\@|\\|\/|\%|\#')
+	# print(smiles, type(smiles))
 	splitted_smiles = re.findall(p, smiles)
 	re_smiles = ''.join(splitted_smiles)
 	assert re_smiles == smiles, "something is missing {} -> {}".format(smiles, re_smiles)
@@ -37,7 +38,7 @@ if __name__ == "__main__":
 						help='Path to output the dictionary')
 	args = parser.parse_args()
 
-	file_list = os.listdir(args.data_dir)
+	file_list = [f for f in os.listdir(args.data_dir) if f.endswith('.csv')]
 	symbols = set()
 	for file_name in file_list:
 		print(file_name)

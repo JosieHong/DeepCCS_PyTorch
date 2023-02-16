@@ -30,27 +30,38 @@ pip install tqdm pandas
 
 ## Train
 
-Please generate the SMILES encoding dictionary first:
+Please convert the .h5 dataset into .csv dataset and generate the SMILES encoding dictionary first:
 
 ```bash
+python convet_h5.py --h5_path ./data/DATASETS.h5 --out_dir ./data/
+
 python gen_dict.py --data_dir ./data/ --output encode_smiles.json 
 ```
+
+Then the model can be trained by: 
 
 ```bash
 python train.py --train_data ./data/ccs_train.csv \
                 --test_data ./data/ccs_test.csv \
                 --checkpoint_path ./check_point/deepccs_ours.pt \
-                --result_path ./result/deepccs_ours.csv 
+                --result_path ./result/deepccs_origin.csv 
+
+# python train.py --train_data ./data/ccs_train.csv \
+#                 --test_data ./data/ccs_test.csv \
+#                 --checkpoint_path ./check_point/deepccs_ours.pt \
+#                 --result_path ./result/deepccs_ours.csv 
 ```
+
+
 
 ## Results
 
 Update later...
 
+
+
 ## Reference
 
 This implementation refers to the paper of DeepCCS: 
 
-```
-Plante, Pier-Luc, et al. "Predicting ion mobility collision cross-sections using a deep neural network: DeepCCS." Analytical chemistry 91.8 (2019): 5191-5199.
-```
+- Plante, Pier-Luc, et al. "Predicting ion mobility collision cross-sections using a deep neural network: DeepCCS." Analytical chemistry 91.8 (2019): 5191-5199.

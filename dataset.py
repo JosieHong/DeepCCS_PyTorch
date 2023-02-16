@@ -9,7 +9,7 @@ import json
 
 
 class SmilesCCSDataset(Dataset): 
-	def __init__(self, data_path, len_smiles, num_add, smiles_dict_path='./encode_smiles.json'): 
+	def __init__(self, data_path, len_smiles, num_add, smiles_dict_path): 
 		# original dictionary for SMILES encoding 
 		# self.ENCODE_SMILES = {"Na": 0, "Li": 1, " ": 2, "#": 3, ")": 4, "(": 5, "+": 6, "-": 7, "/": 8, ".": 9, "1": 10, 
 		# 						"3": 11, "2": 12, "5": 13, "4": 14, "7": 20, "6": 16, "=": 17, "@": 18, "C": 19, "Br": 15, 

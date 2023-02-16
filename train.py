@@ -89,6 +89,8 @@ if __name__ == "__main__":
 						help='Path to training data')
 	parser.add_argument('--test_data', type=str, required=True,
 						help='Path to test data')
+	parser.add_argument('--smiles_dict_path', type=str, default = './encode_smiles.json',
+						help='Path to SMILES encoding dictionary')
 
 	parser.add_argument('--checkpoint_path', type=str, default = '',
 						help='Path to save checkpoint')
@@ -105,16 +107,16 @@ if __name__ == "__main__":
 	# num_sym = 38
 	num_add = 5
 
-	lr = 0.0001
-	batch_size = 64
+	lr = 0.001
+	batch_size = 16
 	epoch_num = 100
 	early_stop_step = 20
 	early_stop_patience = 0
 	best_valid_acc = 9999
 
 	# 1. Data
-	train_set = SmilesCCSDataset(data_path=args.train_data, len_smiles=len_smiles, num_add=num_add)
-	val_set = SmilesCCSDataset(data_path=args.test_data, len_smiles=len_smiles, num_add=num_add)
+	train_set = SmilesCCSDataset(data_path=args.train_data, len_smiles=len_smiles, num_add=num_add, smiles_dict_path=args.smiles_dict_path)
+	val_set = SmilesCCSDataset(data_path=args.test_data, len_smiles=len_smiles, num_add=num_add, smiles_dict_path=args.smiles_dict_path)
 	num_sym = train_set.num_sym() # get the symbol number of SMILES representation
 	assert num_sym == val_set.num_sym()
 
