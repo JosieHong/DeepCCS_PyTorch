@@ -1,6 +1,6 @@
 # DeepCCS (PyTorch)
 
-This is the PyTorch implementation of DeepCCS. The official implementation with TensorFlow is [here](https://github.com/plpla/DeepCCS). 
+This is the PyTorch implementation of DeepCCS. The official implementation with TensorFlow is [[here]](https://github.com/plpla/DeepCCS). 
 
 Updates compared with official implementation:
 
@@ -68,6 +68,8 @@ python train.py --train_data ./data/ccs_train.csv \
 
 ## Reference
 
-This implementation refers to the paper of DeepCCS: 
+This implementation refers to the paper of DeepCCS and their TensorFlow implementation: 
 
 - Plante, Pier-Luc, et al. "Predicting ion mobility collision cross-sections using a deep neural network: DeepCCS." Analytical chemistry 91.8 (2019): 5191-5199.
+
+- https://github.com/plpla/DeepCCS
