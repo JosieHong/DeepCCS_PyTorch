@@ -132,7 +132,7 @@ if __name__ == "__main__":
 	# 2. Model
 	device = torch.device("cuda:" + str(args.device)) if torch.cuda.is_available() else torch.device("cpu")
 	print(f'Device: {device}')
-	model = DeepCCS(len_smiles, num_add)
+	model = DeepCCS(num_sym, num_add)
 	num_params = sum(p.numel() for p in model.parameters())
 	print(f'{str(model)} #Params: {num_params}')
 	# print(f'#Params: {num_params}')

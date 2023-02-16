@@ -6,14 +6,7 @@ Updates compared with official implementation:
 
 - Fix the SMILES string splitting methods. The numbers larger than 9 can be split correctly. 
 
-- Enlarge the SMILES encoding dictionary into:
-    ```bash
-    {'(': 0, 'Br': 1, '31': 2, '54': 3, '56': 4, ')': 5, '52': 6, '2': 7, '32': 8, '15': 9, 'N': 10, 
-    'I': 11, '6': 12, '8': 13, '67': 14, '7': 15, '25': 16, '34': 17, 'S': 18, '4': 19, '45': 20, 
-    '3': 21, 'O': 22, '43': 23, '65': 24, '46': 25, '9': 26, '42': 27, '5': 28, '64': 29, '=': 30, 
-    '53': 31, 'P': 32, 'Cl': 33, 'C': 34, 'H': 35, '21': 36, '13': 37, '24': 38, '12': 39, '14': 40, 
-    '1': 41, 'F': 42, '23': 43, 'Pad': 44}
-    ```
+- Generate the SMILES encoding dictionary automatically according to the data. 
 
 
 
@@ -36,6 +29,12 @@ pip install tqdm pandas
 
 
 ## Train
+
+Please generate the SMILES encoding dictionary first:
+
+```bash
+python gen_dict.py --data_dir ./data/ --output encode_smiles.json 
+```
 
 ```bash
 python train.py --train_data ./data/ccs_train.csv \

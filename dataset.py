@@ -4,21 +4,20 @@ from torch.utils.data import Dataset
 import re
 import numpy as np
 import pandas as pd
+import json
 
 
 
 class SmilesCCSDataset(Dataset): 
-	def __init__(self, data_path, len_smiles, num_add): 
+	def __init__(self, data_path, len_smiles, num_add, smiles_dict_path='./encode_smiles.json'): 
+		# original dictionary for SMILES encoding 
 		# self.ENCODE_SMILES = {"Na": 0, "Li": 1, " ": 2, "#": 3, ")": 4, "(": 5, "+": 6, "-": 7, "/": 8, ".": 9, "1": 10, 
 		# 						"3": 11, "2": 12, "5": 13, "4": 14, "7": 20, "6": 16, "=": 17, "@": 18, "C": 19, "Br": 15, 
 		# 						"F": 21, "I": 22, "H": 23, "K": 24, "O": 25, "N": 26, "P": 27, "S": 28, "[": 29, "]": 30, 
 		# 						"\\": 31, "Se": 32, "c": 33, "Cl": 34, "Ca": 35, "n": 36, 
 		# 						'Pad': 37} 
-		self.ENCODE_SMILES = {'(': 0, 'Br': 1, '31': 2, '54': 3, '56': 4, ')': 5, '52': 6, '2': 7, '32': 8, '15': 9, 'N': 10, 
-								'I': 11, '6': 12, '8': 13, '67': 14, '7': 15, '25': 16, '34': 17, 'S': 18, '4': 19, '45': 20, 
-								'3': 21, 'O': 22, '43': 23, '65': 24, '46': 25, '9': 26, '42': 27, '5': 28, '64': 29, '=': 30, 
-								'53': 31, 'P': 32, 'Cl': 33, 'C': 34, 'H': 35, '21': 36, '13': 37, '24': 38, '12': 39, '14': 40, 
-								'1': 41, 'F': 42, '23': 43, 'Pad': 44}
+		with open(smiles_dict_path, "r") as f: 
+			self.ENCODE_SMILES = json.load(f)
 		self.ENCODE_ADD = {'M+H': 0, 'M-H': 1, 'M+Na': 2, 'M+H-H2O': 3, 'M+2H': 4}
 
 		df = pd.read_csv(data_path)
@@ -55,8 +54,13 @@ class SmilesCCSDataset(Dataset):
 			
 
 	def splitting(self, smiles):
-		p = re.compile(r'[A-Z][a-z]+|[A-Z]|\d+|\s+|\=|\(|\)')
+		p = re.compile(r'He|Li|Be|Ne|Na|Mg|Al|Si|Cl|Ar|Ca|Sc|Ti|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br\
+					|Kr|Rb|Sr|Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|Xe|Cs|Ba|La|Hf|Ta|Re|Os|Ir\
+					|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv\
+					|Ts|Og|[A-Za-z]|\d+|\+|\-|\=|\(|\)|\[|\]|\.|\@|\\|\/|\%|\#')
 		splitted_smiles = re.findall(p, smiles)
+		re_smiles = ''.join(splitted_smiles)
+		assert re_smiles == smiles, "something is missing {} -> {}".format(smiles, re_smiles)
 		# print(smiles, splitted_smiles)
 		return splitted_smiles
 
